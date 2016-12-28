@@ -1,0 +1,21 @@
+{
+    "name": "hedron/cli",
+    "description": "A command line utility for hedron/hedron.",
+    "authors": [
+        {
+            "name": "Kris Vanderwater",
+            "email": "kris.vanderwater@gmail.com",
+            "homepage": "http://www.krisvanderwater.com",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hedron\\CLI\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/console": "^3.2",
+        "symfony/yaml": "^3.2"
+    }
+}
