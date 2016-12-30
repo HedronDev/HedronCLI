@@ -1,7 +1,7 @@
 #!/usr/local/bin/php
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Hedron\CLI\Command\CreateClientCommand;
 use Hedron\CLI\Command\CreateProjectCommand;
