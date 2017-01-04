@@ -17,7 +17,7 @@ class DockerRebuildCommand extends DockerCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $commands = [];
     list($client, $project, $branch) = $this->getClientProjectBranch($input, $output);
-    $docker_dir = $this->getHedronDir('docker', $client, $project, $branch);
+    $docker_dir = $this->getHedronDir('docker', $client, $project, $client .'-'. $project . '-' . $branch);
     $this->runDown($client, $project, $branch, $output);
     $commands[] = "cd $docker_dir";
     $commands[] = "docker-compose build";

@@ -15,7 +15,7 @@ class DockerPSCommand extends DockerCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $commands = [];
     list($client, $project, $branch) = $this->getClientProjectBranch($input, $output);
-    $docker_dir = $this->getHedronDir('docker', $client, $project, $branch);
+    $docker_dir = $this->getHedronDir('docker', $client, $project, $client .'-'. $project . '-' . $branch);
     $commands[] = "cd $docker_dir";
     $commands[] = "docker-compose ps";
     $output->writeln("<info>" . shell_exec(implode("; ", $commands)) . "</info>");
