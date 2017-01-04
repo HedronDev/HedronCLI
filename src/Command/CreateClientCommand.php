@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Yaml;
 
-class CreateClientCommand extends Command {
+class CreateClientCommand extends HedronCommand {
 
   protected function configure() {
     $this->setName('client:create')
@@ -17,8 +17,7 @@ class CreateClientCommand extends Command {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $user_directory = trim(shell_exec("cd ~; pwd"));
-    $hedron_directory = $user_directory . DIRECTORY_SEPARATOR . '.hedron';
+    $hedron_directory = $this->getHedronDir();
     if (!file_exists($hedron_directory)) {
       mkdir($hedron_directory);
     }

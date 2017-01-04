@@ -17,8 +17,6 @@ class DeleteProjectCommand extends HedronCommand {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $user_directory = trim(shell_exec("cd ~; pwd"));
-    $this->setHedronDir($user_directory . DIRECTORY_SEPARATOR . '.hedron');
     $file = $this->getHedronDir('hedron.yml');
     $helper = $this->getHelper('question');
     $question = new Question('Client: ', '');

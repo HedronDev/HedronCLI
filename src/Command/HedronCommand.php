@@ -25,16 +25,11 @@ abstract class HedronCommand extends Command {
     foreach ($subdirs as $dir) {
       $subdir .= DIRECTORY_SEPARATOR . $dir;
     }
+    if (empty($this->hedronDir)) {
+      $user_directory = trim(shell_exec("cd ~; pwd"));
+      $this->hedronDir = $user_directory . DIRECTORY_SEPARATOR . '.hedron';
+    }
     return $this->hedronDir . $subdir;
-  }
-
-  /**
-   * Set the absolute path to the current hedron directory.
-   *
-   * @param string $dir
-   */
-  public function setHedronDir(string $dir) {
-    $this->hedronDir = $dir;
   }
 
 }

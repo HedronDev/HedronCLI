@@ -15,8 +15,6 @@ class UpdateHedronCommand extends HedronCommand {
   }
 
   protected function execute(InputInterface $input, OutputInterface $output) {
-    $user_directory = trim(shell_exec("cd ~; pwd"));
-    $this->setHedronDir($user_directory . DIRECTORY_SEPARATOR . '.hedron');
     $hedron_dir = $this->getHedronDir('hedron');
     if (!file_exists($hedron_dir . DIRECTORY_SEPARATOR . 'composer.json')) {
       throw new RuntimeException("The hedron directory or its composer.json file appear to be missing. Try running core:install first.");
