@@ -11,6 +11,7 @@ use Hedron\CLI\Command\DockerRebuildCommand;
 use Hedron\CLI\Command\DockerRemoveCommand;
 use Hedron\CLI\Command\DockerUpCommand;
 use Hedron\CLI\Command\InstallHedronCommand;
+use Hedron\CLI\Command\ListProjectCommand;
 use Hedron\CLI\Command\UpdateHedronCommand;
 use Symfony\Component\Console\Application;
 
@@ -19,6 +20,7 @@ $application = new Application();
 $application->add(new InstallHedronCommand());
 $application->add(new UpdateHedronCommand());
 $application->add(new CreateClientCommand());
+$application->add(new ListProjectCommand());
 $application->add(new CreateProjectCommand());
 $application->add(new DeleteProjectCommand());
 $application->add(new DockerPSCommand());
