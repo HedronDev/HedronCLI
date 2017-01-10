@@ -5,7 +5,7 @@ namespace Hedron\CLI\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DockerUpCommand extends DockerCommand {
+class DockerUpCommand extends GitWorkingDirectoryCommand {
 
   protected function configure() {
     $this->setName('docker:up')

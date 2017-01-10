@@ -5,7 +5,7 @@ namespace Hedron\CLI\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DockerPSCommand extends DockerCommand {
+class DockerPSCommand extends GitWorkingDirectoryCommand {
   protected function configure() {
     $this->setName('docker:ps')
       ->setDescription('Run docker-compose ps for a given project.');

@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-abstract class DockerCommand extends HedronCommand {
+abstract class GitWorkingDirectoryCommand extends HedronCommand {
 
   protected function configure() {
     $this->addArgument('client', InputArgument::OPTIONAL, 'The client.', '')
@@ -16,6 +16,16 @@ abstract class DockerCommand extends HedronCommand {
       ->addArgument('remote', InputArgument::OPTIONAL, 'Custom remote.', 'origin');
   }
 
+  /**
+   * Extracts client, project and branch from the current working directory.
+   *
+   * @param \Symfony\Component\Console\Input\InputInterface $input
+   *   The input object.
+   * @param \Symfony\Component\Console\Output\OutputInterface $output
+   *   The output object.
+   *
+   * @return array
+   */
   protected function getClientProjectBranch(InputInterface $input, OutputInterface $output) {
     $client = $input->getArgument('client');
     $project = $input->getArgument('project');

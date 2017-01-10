@@ -4,7 +4,7 @@ namespace Hedron\CLI\Command;
 
 use Hedron\CLI\Exception\MissingDockerException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
@@ -30,6 +30,10 @@ class InstallHedronCommand extends Command {
     $question->setValidator([$this, 'validatePHPLocation']);
     $yaml['php'] = $helper->ask($input, $output, $question);
     $yaml['client'] = [];
+
+    $question = new Question('Preferred IDE Location: ', '');
+    $question->setValidator([$this, 'validateIDELocation']);
+    $yaml['preferredIDE'] = $helper->ask($input, $output, $question);
 
     $user_directory = trim(shell_exec("cd ~; pwd"));
     $hedron_directory = $user_directory . DIRECTORY_SEPARATOR . '.hedron';
@@ -86,11 +90,21 @@ class InstallHedronCommand extends Command {
 
   public function validatePHPLocation($answer) {
     if (!file_exists($answer)) {
-      throw new LogicException("The PHP path given does not appear to exist.");
+      throw new RuntimeException("The PHP path given does not appear to exist.");
     }
     $php_version = trim(shell_exec("$answer --version"));
     if (strpos($php_version, "PHP 7.") !== 0) {
-      throw new LogicException("The specified PHP path is either the wrong version or is not PHP.");
+      throw new RuntimeException("The specified PHP path is either the wrong version or is not PHP.");
+    }
+    return $answer;
+  }
+
+  public function validateIDELocation($answer) {
+    if (!$answer) {
+      return;
+    }
+    if (!file_exists($answer)) {
+      throw new RuntimeException("The location of your IDE could not be validated, please check and try again.");
     }
     return $answer;
   }

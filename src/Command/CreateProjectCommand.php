@@ -40,6 +40,9 @@ class CreateProjectCommand extends HedronCommand {
     $environment['name'] = $projectName;
     $environment['projectType'] = $projectType;
     $environment['host'] = $server;
+    $question = new Question("Preferred Project IDE Location ({$yaml['preferredIDE']}): ", $yaml['preferredIDE']);
+    $question->setValidator([$this, 'validateIDELocation']);
+    $environment['projectIDE'] = $helper->ask($input, $output, $question);
     $environment['gitDirectory'] = $this->getHedronDir('working_dir', $project_dir);
     if (mkdir($this->getHedronDir('working_dir', $project_dir), 0777, TRUE)) {
       $output->writeln('<info>Project working directory successfully created.</info>');
@@ -103,6 +106,16 @@ Your sql volume for docker-compose.yml configuration is: \${SQL}</info>");
     $yaml = Yaml::parse(file_get_contents($file));
     if (!in_array($answer, $yaml['client'])) {
       throw new RuntimeException("The selected client does not exists, run the client:create command to add the client first.");
+    }
+    return $answer;
+  }
+
+  public function validateIDELocation($answer) {
+    if (!$answer) {
+      return;
+    }
+    if (!file_exists(str_replace('\\', '', $answer))) {
+      throw new RuntimeException("The location of your IDE could not be validated, please check and try again.");
     }
     return $answer;
   }

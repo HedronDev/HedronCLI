@@ -6,7 +6,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DockerRemoveCommand extends DockerCommand {
+class DockerRemoveCommand extends GitWorkingDirectoryCommand {
 
   protected function configure() {
     $this->setName('docker:remove')
