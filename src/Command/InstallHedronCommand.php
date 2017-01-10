@@ -23,22 +23,26 @@ class InstallHedronCommand extends Command {
       throw new MissingDockerException("Docker must be installed for Hedron to be installed.");
     }
     // @todo check minimum docker version
-    // Setup hedron configuration.
-    $yaml = [];
-    $helper = $this->getHelper('question');
-    $question = new Question('PHP 7 Location: ', '');
-    $question->setValidator([$this, 'validatePHPLocation']);
-    $yaml['php'] = $helper->ask($input, $output, $question);
-    $yaml['client'] = [];
-
-    $question = new Question('Preferred IDE Location: ', '');
-    $question->setValidator([$this, 'validateIDELocation']);
-    $yaml['preferredIDE'] = $helper->ask($input, $output, $question);
-
     $user_directory = trim(shell_exec("cd ~; pwd"));
     $hedron_directory = $user_directory . DIRECTORY_SEPARATOR . '.hedron';
     if (!file_exists($hedron_directory)) {
       mkdir($hedron_directory);
+    }
+    // Write hedron configuration.
+    $file = $hedron_directory . DIRECTORY_SEPARATOR . 'hedron.yml';
+    if (!file_exists($file)) {
+      // Setup hedron configuration.
+      $yaml = [];
+      $helper = $this->getHelper('question');
+      $question = new Question('PHP 7 Location: ', '');
+      $question->setValidator([$this, 'validatePHPLocation']);
+      $yaml['php'] = $helper->ask($input, $output, $question);
+      $yaml['client'] = [];
+
+      $question = new Question('Preferred IDE Location: ', '');
+      $question->setValidator([$this, 'validateIDELocation']);
+      $yaml['preferredIDE'] = $helper->ask($input, $output, $question);
+      file_put_contents($file, Yaml::dump($yaml, 10));
     }
     $dir = $hedron_directory . DIRECTORY_SEPARATOR . 'hedron';
     if (!file_exists($dir)) {
@@ -47,7 +51,7 @@ class InstallHedronCommand extends Command {
       }
       $commands = [];
       $commands[] = "cd $dir";
-      $commands[] = "composer create-project hedron/hedron --no-interaction -s dev .";
+      $commands[] = "composer create-project hedron/hedron --prefer-dist --no-interaction -s dev .";
       shell_exec(implode("; ", $commands));
       if (file_exists($dir . DIRECTORY_SEPARATOR . 'vendor')) {
         $output->writeln("Hedron successfully installed.");
@@ -83,9 +87,6 @@ class InstallHedronCommand extends Command {
         $output->writeln("Data directory successfully created.");
       }
     }
-    // Write hedron configuration.
-    $file = $hedron_directory . DIRECTORY_SEPARATOR . 'hedron.yml';
-    file_put_contents($file, Yaml::dump($yaml, 10));
   }
 
   public function validatePHPLocation($answer) {

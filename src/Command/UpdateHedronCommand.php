@@ -3,6 +3,7 @@
 namespace Hedron\CLI\Command;
 
 use Symfony\Component\Console\Exception\RuntimeException;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -19,10 +20,10 @@ class UpdateHedronCommand extends HedronCommand {
     if (!file_exists($hedron_dir . DIRECTORY_SEPARATOR . 'composer.json')) {
       throw new RuntimeException("The hedron directory or its composer.json file appear to be missing. Try running core:install first.");
     }
-    $commands = [];
-    $commands[] = "cd $hedron_dir";
-    $commands[] = "composer update";
-    shell_exec(implode('; ', $commands));
+    shell_exec("rm -Rf $hedron_dir");
+    $install = $this->getApplication()->find('core:install');
+    $arguments = new ArrayInput([]);
+    $install->run($arguments, $output);
     // Rewrite existing project hooks
     $file = $this->getHedronDir('hedron.yml');
     $yaml = Yaml::parse(file_get_contents($file));
