@@ -20,14 +20,14 @@ class UpdateHedronCommand extends HedronCommand {
     if (!file_exists($hedron_dir . DIRECTORY_SEPARATOR . 'composer.json')) {
       throw new RuntimeException("The hedron directory or its composer.json file appear to be missing. Try running core:install first.");
     }
-    shell_exec("rm -Rf $hedron_dir");
-    $install = $this->getApplication()->find('core:install');
-    $arguments = new ArrayInput([]);
-    $install->run($arguments, $output);
+    $commands = [];
+    $commands[] = "cd $hedron_dir";
+    $commands[] = "composer update";
+    shell_exec(implode("; ", $commands));
     // Rewrite existing project hooks
     $file = $this->getHedronDir('hedron.yml');
     $yaml = Yaml::parse(file_get_contents($file));
-    $hedron_hooks = $this->getHedronDir('hedron', 'hooks');
+    $hedron_hooks = $this->getHedronDir('hedron', 'vendor', 'hedron', 'hedron', 'hooks');
     $files = [];
     foreach (array_diff(scandir($hedron_hooks), array('..', '.')) as $file_name) {
       $file = "#!{$yaml['php']}\n";

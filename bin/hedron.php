@@ -2,6 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Hedron\CLI\Command\CoreComposer;
 use Hedron\CLI\Command\CreateClientCommand;
 use Hedron\CLI\Command\CreateProjectCommand;
 use Hedron\CLI\Command\DeleteProjectCommand;
@@ -20,6 +21,7 @@ $application = new Application();
 
 $application->add(new InstallHedronCommand());
 $application->add(new UpdateHedronCommand());
+$application->add(new CoreComposer());
 $application->add(new CreateClientCommand());
 $application->add(new ListProjectCommand());
 $application->add(new ProjectOpenCommand());

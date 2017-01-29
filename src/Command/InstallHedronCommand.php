@@ -51,7 +51,10 @@ class InstallHedronCommand extends Command {
       }
       $commands = [];
       $commands[] = "cd $dir";
-      $commands[] = "composer create-project hedron/hedron --prefer-dist --no-interaction -s dev .";
+      //$commands[] = "composer create-project hedron/hedron --prefer-dist --no-interaction -s dev .";
+      //$commands[] = "composer create-project hedron/hedron --prefer-dist --no-interaction -s stable .";
+      $commands[] = "composer init --require=\"hedron/hedron:^0.2\" -n";
+      $commands[] = "composer install";
       shell_exec(implode("; ", $commands));
       if (file_exists($dir . DIRECTORY_SEPARATOR . 'vendor')) {
         $output->writeln("Hedron successfully installed.");

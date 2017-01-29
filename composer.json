@@ -1,6 +1,7 @@
 {
     "name": "hedron/cli",
     "description": "A command line utility for hedron/hedron.",
+    "license": "GPL-3.0+",
     "authors": [
         {
             "name": "Kris Vanderwater",

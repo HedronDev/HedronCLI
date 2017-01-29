@@ -90,14 +90,15 @@ class CreateProjectCommand extends HedronCommand {
         $file_name = $git_hooks_dir . DIRECTORY_SEPARATOR . $file_name;
         shell_exec("chmod a+x $file_name");
       }
+      $clone_dir = strtolower($client) . '_' . strtolower($projectName);
       $output->writeln("<info>To begin working:
-git clone $dir
+git clone $dir $clone_dir
 OR in the existing git working directory you wish sync with this repository:
 git remote add origin $dir
 git push -u origin master
 
-Your website volume for docker-compose.yml configuration is: \${WEB}
-Your sql volume for docker-compose.yml configuration is: \${SQL}</info>");
+Your website volume for docker-compose.yml configuration is: \${HEDRON_WEB_VOL}
+Your sql volume for docker-compose.yml configuration is: \${HEDRON_SQL_VOL}</info>");
     }
   }
 
