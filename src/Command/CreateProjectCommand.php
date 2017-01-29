@@ -81,7 +81,7 @@ class CreateProjectCommand extends HedronCommand {
     shell_exec(implode('; ', $commands));
     unset($commands);
     if (file_exists($dir . DIRECTORY_SEPARATOR . 'hooks')) {
-      $hedron_hooks = $this->getHedronDir('hedron', 'hooks');
+      $hedron_hooks = $this->getHedronDir('hedron', 'vendor', 'hedron', 'hedron', 'hooks');
       $git_hooks_dir = $dir . DIRECTORY_SEPARATOR . 'hooks';
       foreach (array_diff(scandir($hedron_hooks), array('..', '.')) as $file_name) {
         $file = "#!{$yaml['php']}\n";
