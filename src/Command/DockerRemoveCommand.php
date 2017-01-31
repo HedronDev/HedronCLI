@@ -5,6 +5,7 @@ namespace Hedron\CLI\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class DockerRemoveCommand extends GitWorkingDirectoryCommand {
 
@@ -17,7 +18,8 @@ class DockerRemoveCommand extends GitWorkingDirectoryCommand {
   protected function execute(InputInterface $input, OutputInterface $output) {
     $commands = [];
     list($client, $project, $branch) = $this->getClientProjectBranch($input, $output);
-    $docker_dir = $this->getHedronDir('docker', $client, $project, $client .'-'. $project . '-' . $branch);
+    $environment_file = Yaml::parse(file_get_contents($this->getHedronDir('project', $client, $project, 'environment.yml')));
+    $docker_dir = $this->getHedronDir('docker', $client, $project, $environment_file['client'] .'-'. $environment_file['name'] . '-' . $branch);
     $this->runDown($client, $project, $branch, $output);
     $commands[] = "cd $docker_dir";
     $commands[] = "docker-compose rm -v";
